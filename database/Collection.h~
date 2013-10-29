@@ -1,0 +1,8 @@
+typedef struct binaryTree *Collection;
+
+
+
+Collection mkCollection();
+void collectionInsertKeyValuePair();
+void collectionQuery(char* key); // puts("Found entry:");  printf("key: %s\nvalue: %s\n", cursor->key, cursor->value);   printf("Could not find an entry matching key \"%s\"!\n", buffer);
+int collectionFind(char* key);

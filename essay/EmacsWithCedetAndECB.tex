@@ -1,0 +1,259 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Simple Sectioned Essay Template
+% LaTeX Template
+%
+% This template has been downloaded from:
+% http://www.latextemplates.com
+%
+% Note:
+% The \lipsum[#] commands throughout this template generate dummy text
+% to fill the template out. These commands should all be removed when 
+% writing essay content.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[12pt]{article} % Default font size is 12pt, it can be changed here
+\usepackage[T1]{fontenc}      
+\usepackage[swedish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{listings}
+\usepackage{geometry} % Required to change the page size to A4
+\geometry{a4paper} % Set the page size to be A4 as opposed to the default US Letter
+
+\usepackage{graphicx} % Required for including pictures
+
+\usepackage{float} % Allows putting an [H] in \begin{figure} to specify the exact location of the figure
+\usepackage{wrapfig} % Allows in-line images such as the example fish picture
+
+\usepackage{lipsum} % Used for inserting dummy 'Lorem ipsum' text into the template
+
+\linespread{1.2} % Line spacing
+
+%\setlength\parindent{0pt} % Uncomment to remove all indentation from paragraphs
+
+\graphicspath{{Pictures/}} % Specifies the directory where pictures are stored
+
+\begin{document}
+
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\begin{titlepage}
+
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Defines a new command for the horizontal lines, change thickness here
+
+\center % Center everything on the page
+
+\textsc{\LARGE Uppsala Universitet}\\[1.5cm] % Name of your university/college
+\textsc{\Large Civilingenjörsprogrammet i Informationsteknologi}\\[0.5cm] % Major heading such as course name
+\textsc{\large Imperativ och Objectorienterad Progammeringingsmetodik}\\[0.5cm] % Minor heading such as course title
+
+\HRule \\[0.4cm]
+{ \huge \bfseries Cedet och ECB för Emacs}\\[0.4cm] % Title of your document
+\HRule \\[1.5cm]
+
+\begin{minipage}{0.4\textwidth}
+\begin{flushleft} \large
+\emph{Author:}\\
+Max \textsc{Andersson} % Your name
+\end{flushleft}
+\end{minipage}
+~
+\begin{minipage}{0.4\textwidth}
+\begin{flushright} \large
+\emph{Supervisor:} \\
+Tobias \textsc{Wrigstad} % Supervisor's Name
+\end{flushright}
+\end{minipage}\\[4cm]
+
+{\large \today}\\[3cm] % Date, change the \today to a set date if you want to be precise
+
+%\includegraphics{Logo}\\[1cm] % Include a department/university logo - this will require the graphicx package
+
+\vfill % Fill the rest of the page with whitespace
+
+\end{titlepage}
+
+%----------------------------------------------------------------------------------------
+%	TABLE OF CONTENTS
+%----------------------------------------------------------------------------------------
+
+\tableofcontents % Include a table of contents
+
+\newpage % Begins the essay on a new page instead of on the same page as the table of contents 
+
+%----------------------------------------------------------------------------------------
+%	INTRODUCTION
+%----------------------------------------------------------------------------------------
+
+\section{Introduction} % Major section
+
+CEDET (Collection of Emacs Development Enviroment Tools) och ECB (Emacs Code Browser) är verktyg utvecklade för berika Emacs som utvecklingsmiljö. % \cite{Figueredo:2009dg}.
+
+%------------------------------------------------
+
+\subsection{Vad är CEDET?} % Sub-section
+
+CEDET är en samling verktyg. Det betyder alltså att den innehåller olika verktyg som gör olika saker för att göra en programmerares liv i Emacs lättare. 
+Emacs är en textediterare, men med tillägg som CEDET förvandlar det till en utvecklingsmiljö.  I denna utvecklingsmiljö kan vi bla. strukturera, navigera, generera och automatisera vår kod. Cedet har även en inbyggd PMS (Projekt Management System), som gör det möjligt för oss att inte bara stykturera vår kod utan hela vårt projekt.
+
+%------------------------------------------------
+
+\subsection{Vad är ECB?} % Sub-section
+
+%TODO!
+
+%------------------------------------------------
+
+%\begin{figure}[H] % Example image
+%\center{\includegraphics[width=0.5\linewidth]{placeholder}}
+%\caption{Example image.}
+%\label{fig:speciation}
+%\end{figure}
+
+%------------------------------------------------
+
+
+%----------------------------------------------------------------------------------------
+%	MAJOR SECTION 1
+%----------------------------------------------------------------------------------------
+\newpage
+\section{CEDET (Collection of Emacs Development Eviroment Tools)} % Major section
+
+Cedet har många olika verktyg som möjligör och förenklar en arbetsprocess utförd i emacs. Det vi ska ta en titt på för att göra det är :
+\begin{itemize}
+\item Installation och enkel konfigurering av CEDET
+\item Stöd för projekthantering och Självgenerande Makefiler
+\item Kod Komplettering
+\item Kod Generering
+\item Navigering med Speedbar
+\end{itemize}
+%------------------------------------------------
+
+
+\subsection{Installation och Konfiguration av CEDET} % Sub-section
+I de nyare versionerna av Emacs finns redan Cedet installerat och har du det installerat du kan hoppa förbi sektionen om installationen, om du är osäker kontrollera om det finns genom att tycka M-x cedet-version RET. 
+Installationen för CEDET ser lite olika ut beroende på vilket operativsystem du sitter på men är ganska i båda fallen relativt simpel. Men först måste du ladda ner en utgåva av CEDET som du kan göra på
+{http://sourceforge.net/projects/cedet/} och extrahera paketet någonstans på din dator (rekomenderat äär att lägga den i mapp som tex.  ~/.emacs.d/packages/ ).
+
+%------------------------------------------------
+\subsubsection{Installation på Unix baserade system (Mac OS X, Linux)}
+Efter att ha laddat ner mjukvaran till din dator så öppna upp terminalen och navigera dig till mappen som du nyss extraherade och kör kommandot:
+\begin{lstlisting}
+make EMACS=emacs
+\end{lstlisting}
+
+%------------------------------------------------
+
+\subsubsection{Installation på Windows baserade system}
+På ett Windows baserat system fungerar inte make kommandot, men just detsamma så öppna upp Komtandotolken vilket man smidigt kan för genom att klicka WIN + R sedan skriva `cmd` följt av ENTER. Därefter navigera till den extraherade mappen och köra kommandot:
+\begin{lstlisting}
+emacs -Q -l cedet-build.el -f cedet-build 
+\end{lstlisting}
+
+
+%\begin{wrapfigure}{l}{0.4\textwidth} % Inline image example
+% \begin{center}
+%  \includegraphics[width=0.38\textwidth]{fish}
+%  \end{center}
+%  \caption{Fish}
+%\end{wrapfigure}
+
+
+%------------------------------------------------
+
+\subsubsection{Konfigurations av Emacs} % Sub-sub-section
+När installationen av de utökade verktygsprogrammen är installerade så behöver vi berätta för Emacs att det kan vara bra att starta dem när vi startar Emacs. Detta gör vi genom att lägga till ett par rader kod i våran initieringsfil. Beroende på din version och platform så kan den filen finnas olika ställen men det vanligaste är att du har en .emacs fil i din hemkatalog (`~/.emacs`), men den kanske också vara (`.emacs.d/init.el`). Finns inte filen brukar det gå bra att bara skapa dem.  Tänk på att i Unix system så är filer och mappar som börjar men `.` dolda i filsystemet så det underlättar att öppna filen i terminalen/komandotolken eller med en absolut/relativ sökväg i emacs. 
+När du hittat och öppnat filen så klista in eller skriv följande rader i filen
+\begin{lstlisting}
+;; CEDET Config
+  (load-file "~/.emacs.d/packages/cedet-1.1/common/cedet.el")
+  (semantic-load-enable-code-helpers) 
+  (global-srecode-minor-mode 1)       
+  (global-ede-mode t)
+\end{lstlisting}
+
+Det finns självklart många fler konfigurationer som går att göra men detta räcker för de ändamål vi har. Efter du är klar med att sätta in raderna i filen, så spara filen och starta om emacs eller tyck och skriv  ( M-x eval-buffer ) 
+\newpage
+\subsection{Stöd Projekthantering och Självgenerande Makefiler}
+\newpage
+\subsection{Kod Komplettering}
+\newpage
+\subsection{Kod Generering}
+\newpage
+\subsection{Navigering med Speedbar}
+\newpage
+
+\section{ECB (Emacs Code Browser)}
+
+\subsection{Installation och Konfigurering av ECB}
+ECB behöver Cedet för att fungera korrekt, så du måste installera det först om du inte har det installerat redan, vissa nyare versioner har cedet redan installerat. Men för att installera ECB på lättaste sättet så öppna upp din ~/.emacs eller ~/.emacs.d/init.el och lägg in följande rader i filen
+\begin{lstlisting}
+(setq package-archives 
+'(("gnu" . "http://elpa.gnu.org/packages/")
+  ("marmalade" . "http://marmalade-repo.org/packages/")
+  ("melpa" . "http://melpa.milkbox.net/packages/")))
+\end{lstlisting}
+spara filen och starta om emacs, evt skriv in M-x eval-buffer RET. Detta lägger till att arkiv av paket, som sedan går att installera.
+
+Nästa steg är att skriva M-x list-packages RET. Då kommer en lång lista upp med olika paket. Sök efter ECB antingen genom att scolla listan eller tryck C-s ecb , så borde du hitta raden. Tryck på ecb ordet och det bör öppnas en ny buffer. I den nya buffertern, tryck på Install och låt scriptet köras.
+
+
+OBS!: Härmed ska programmet vara installerat, men du kan ha fått upp varingsmeddelanden. Detta kan bero på olika saker men först så navigera dig till ~/.emacs.d/elpa/ecb-20130826.1941/ecb-cedet-wrapper.el eller motsvarande sökväg. I filen navigera till raden där det står \begin{lstlisting}
+(defconst ecb-cedet-required-version-max '(x x x x)
+\end{lstlisting}
+och byt ut mot följande rad
+\begin{lstlisting}
+(defconst ecb-cedet-required-version-max '(2 1 4 9)
+\end{lstlisting}
+spara sedan filen och starta om emacs.
+
+När du startar upp emacs igen så ska det fungera genom att skriva M-x ecb-activate RET eller M-x ecb-minor-mode RET. Du kan med fördel lägga till raden med paranterser om sig i din .emacs fil om du vill.
+\newpage
+\subsection{Navigering med ECB}
+
+%----------------------------------------------------------------------------------------
+%	MAJOR SECTION X - TEMPLATE - UNCOMMENT AND FILL IN
+%----------------------------------------------------------------------------------------
+
+%\section{Content Section}
+
+%\subsection{Subsection 1} % Sub-section
+
+% Content
+
+%------------------------------------------------
+
+%\subsection{Subsection 2} % Sub-section
+
+% Content
+
+%----------------------------------------------------------------------------------------
+%	CONCLUSION
+%----------------------------------------------------------------------------------------
+\newpage
+\section{Sammanfattning} % Major section
+\newpage
+\section{Lära Mer}
+
+%----------------------------------------------------------------------------------------
+%	BIBLIOGRAPHY
+%----------------------------------------------------------------------------------------
+\newpage
+\begin{thebibliography}{99} % Bibliography - this is intentionally simple in this template
+
+%\bibitem[Figueredo and Wolf, 2009]{Figueredo:2009dg}
+%Figueredo, A.~J. and Wolf, P. S.~A. (2009).
+%\newblock Assortative pairing and life history strategy - a cross-cultural study.
+%\newblock {\em Human Nature}, 20:317--330.
+ 
+\end{thebibliography}
+
+%----------------------------------------------------------------------------------------
+
+\end{document}

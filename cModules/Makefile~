@@ -1,0 +1,9 @@
+
+Main: Main.o List.o
+	gcc -Wall Main.o List.o -o Main		
+
+Main.o: Main.c List.h
+	gcc -c -Wall Main.c
+
+List.o: List.c List.h
+	gcc -c -Wall List.c

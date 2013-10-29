@@ -1,3 +1,4 @@
+package Main;
 
 public class IdPerson<Id> {
 	private Id id;

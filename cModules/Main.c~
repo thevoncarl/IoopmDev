@@ -1,0 +1,23 @@
+#include "List.h"
+
+int main(int argc, char *argv[])
+{
+
+List Alist = listMake();
+if (listIsEmpty(Alist) == 1){
+  print ("Empty List!");
+}
+ int i = 0;
+ while (i < 100){
+   listInsert(Alist, i, i*3);
+   listPrepend(Alist, i);
+   listAppend(Alist, i);
+   
+
+   i++;
+}
+
+  
+  return 0;
+}
+

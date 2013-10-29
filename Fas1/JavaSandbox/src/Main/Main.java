@@ -1,54 +1,9 @@
+package Main;
 
 
 
-abstract class Bilar implements Cloneable  {
-	private String motor; 
-
-	Bilar(String motor){
-		this.motor = motor;
-	}
-
-
-	public String GetMotor(){return motor;}
-
-	public void SetMotor(String newMotor){
-		motor = newMotor;
-	}
-
-	abstract String bilTyp();
-
-	protected Bilar clone(){
-		try {
-			return (Bilar)super.clone();
-		} catch (CloneNotSupportedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return null;
-		}
-
-	}
-}
-
-class Ford extends Bilar{
-
-	Ford(String motor){
-		super("Fords: " + motor);
-	}
-
-	String bilTyp(){ return  "Ford fråm klassen! Med en " + this.GetMotor() + " motor"; } 
-}
-
-class Audi extends Bilar{
-	Audi(String motor){
-		super("Audis: " + motor);
-	}
-	Audi(String motor, String motorSerie){
-		super("Audis: " + motor +  "in the" + motorSerie + " sereies")  ;
-	}
-	String bilTyp(){return "Audi från klassen! Med en " + this.GetMotor() + " motor"; }
-}
-
-class MaxBil extends Audi{
+	class MaxBil extends Audi{
+	
 	MaxBil(){
 		super("V8");
 	}
