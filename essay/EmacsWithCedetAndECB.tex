@@ -22,6 +22,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{listings}
 \usepackage{geometry} % Required to change the page size to A4
+\usepackage{hyperref}
 \geometry{a4paper} % Set the page size to be A4 as opposed to the default US Letter
 
 \usepackage{graphicx} % Required for including pictures
@@ -106,7 +107,9 @@ Emacs är en textediterare, men med tillägg som CEDET förvandlar det till en u
 
 \subsection{Vad är ECB?} % Sub-section
 
-%TODO!
+ECB eller Emacs Code Browser är precis som namnet föreslår en navigator för dig att navigera din kod. Det kom Ecb extra bra är det att det finns möjlighet att överblicka strukturen i kod filer, arbeta strukturerat med mappar, ha tillgång till alla matriell ditt projekt behöver visuellt medens du kodar. Dessutom drar det nytta av inbyggda delar utav Cedet paketet som gör allt detta möjligt. 
+
+ECB använder sig utav trädstrukturer för att presentera filerna i dina mappar, och ger dig snabb åtkomst till projektfiler.
 
 %------------------------------------------------
 
@@ -129,9 +132,6 @@ Cedet har många olika verktyg som möjligör och förenklar en arbetsprocess ut
 \begin{itemize}
 \item Installation och enkel konfigurering av CEDET
 \item Stöd för projekthantering och Självgenerande Makefiler
-\item Kod Komplettering
-\item Kod Generering
-\item Navigering med Speedbar
 \end{itemize}
 %------------------------------------------------
 
@@ -181,14 +181,11 @@ När du hittat och öppnat filen så klista in eller skriv följande rader i fil
 Det finns självklart många fler konfigurationer som går att göra men detta räcker för de ändamål vi har. Efter du är klar med att sätta in raderna i filen, så spara filen och starta om emacs eller tyck och skriv  ( M-x eval-buffer ) 
 \newpage
 \subsection{Stöd Projekthantering och Självgenerande Makefiler}
-\newpage
-\subsection{Kod Komplettering}
-\newpage
-\subsection{Kod Generering}
-\newpage
-\subsection{Navigering med Speedbar}
-\newpage
+Cedet är en mångsidigt program som även fyller funktionen att göra dina Makefiler åt dig. EDE (Emacs Development Enviroment) är det delprogrammet som ingår i Cedet som hanterar projekten. Det första du behöver göra är att ställa dig i en buffer med ett C/C++ dokument där du vill skapa projektet och sedan använda M-x ede-new RET för att skapa ett nytt projekt, den kommer fråga dig om projektets namn osv. När du är klar med det så handlar det om att lägga in såkallade `Targets' i projectet. Ett Target är en målfil som skall skapas, som tex databas.o eller liknande. För att skapa ett nytt Target skriver du M-x ede-new-target RET Sedan mata in vad ditt target ska heta. Vanligtvis frågar programmet om du vill lägga till filen du står i men du kan även lägga till nya filer senare med kommandot M-x ede-add-file för att lägga till fler beroenden till din målfil.
 
+När du har ett projekt, och minst ett Target i ditt projekt kan du bygga projektet genom snabbkommandot C-c . C då generar programmet automatiskt en Makefil och kör den , det finns öven stöd för att kompilera delmål och generera om Makefilen  
+
+\newpage
 \section{ECB (Emacs Code Browser)}
 
 \subsection{Installation och Konfigurering av ECB}
@@ -215,7 +212,27 @@ spara sedan filen och starta om emacs.
 
 När du startar upp emacs igen så ska det fungera genom att skriva M-x ecb-activate RET eller M-x ecb-minor-mode RET. Du kan med fördel lägga till raden med paranterser om sig i din .emacs fil om du vill.
 \newpage
+\subsection{Fönster i ECB}
+ECB består av en gäng olika fönster som fyller olika funktioner för användaren som underlättar navigering i och utanför din kod.
+\begin{description}
+\item [ECB Directories-window (C-c . g d)] \hfill \\
+  Visar en trädstruktur från din satta source path.
+\item [ECB Source-window (C-c . g s)] \hfill \\
+  Visar filer i katalogen valda katalogen i ditt Directory-Window
+\item [ECB Method-window (C-c . g m)] \hfill \\
+  Visar en överblick på ditt aktiva document och ger dig möjlighet att hoppa till funktioner och variabler osv. i din kod. (om du har stöd för att parseing av språket, tex för Java behövs JDEE installerat)  
+\item [ECB History-window (C-c . g h)] \hfill \\
+  Visar vilka filer du har haft öppna och ger dig möjlighet att hoppa mellan på ett smidigt sätt.
+\item [ECB Edit-Window 1 (C-c . g e 1)] \hfill \\
+  Visar din aktuella buffer som du arbetar i.(Om du jobbar med flera Edit fönster uppe kan du byta ut siffran 1:an till 2,3 ... )
+\item [ECB Compile-Window (C-C . g c)] \hfill \\
+  Visar din compile buffer, när du gör kommandon som compile. C-c . / ger dig lite större buffer att läsa ur och C-c . \ öppnar och stänger fönstret
+\end{description}
+
 \subsection{Navigering med ECB}
+Navigering i görs med antingen tangentbordet med komandona som är beskrivna ovan i kombination med piltangenterna och return-knappen eller med musen. Det som kan vara bra att notera är att det finns något som kallar för Power Click som du kan med hjälp av shift knappen och sedan antingen return eller musklick så uppdateras din katalog om den av någon anledning har blivit utdaterad. Och för att expandera en nod i någon av trädstrukturerna tycker du bara på TAB knappen så öppnas eller stängs fliken. Det finns mängder med kommandon du kan köra som finns beskrivna på hemsidan \url{http://ecb.sourceforge.net} där du läsa mer om att konfigura din miljö precis som du vill ha den.
+\subsection{Ändra layout i ECB}
+Det finns fördefinerade layouter för ECB som man kan använda sig av om man vill ha en annan struktur eller kanske bara vissa fönster öppna. Du kommer lättast åt det genom att skriva M-x ecb-change-layout RET , då frågar programmet dig om ett namn på layouten du vill ha då kan du lätt bara tycka TAB så dyker en buffer upp med de olika fördefinerade möjligheterna. Testa dig runt och se om det är någon som passar dig bra.
 
 %----------------------------------------------------------------------------------------
 %	MAJOR SECTION X - TEMPLATE - UNCOMMENT AND FILL IN
@@ -236,23 +253,17 @@ När du startar upp emacs igen så ska det fungera genom att skriva M-x ecb-acti
 %----------------------------------------------------------------------------------------
 %	CONCLUSION
 %----------------------------------------------------------------------------------------
-\newpage
-\section{Sammanfattning} % Major section
-\newpage
-\section{Lära Mer}
+\section{Sammanfattning}
+Självständigt är Emacs ett kraftfullt verktyg som kan det mesta, men med dessa verktyg kommer man steget längre att smidigt navigera sig i koden och ger möjligheter att överskåda och arbeta tillsammans på projekt. 
+Det finns många funktioner att undersöka i både Cedet och ECB som kan göra ditt arbete i emacs blir ännu mer produktivt som tillexempel hur man generar distubutioner av din kod eller laddar in ett projekt som någon annan byggt och ger dig möjligheten att sammarbeta i samma projekt. Finns även stöd olika typer av versions kontroll som kan göra ett sammarbetesprojekt extremt mycket smidigare 
 
-%----------------------------------------------------------------------------------------
-%	BIBLIOGRAPHY
-%----------------------------------------------------------------------------------------
-\newpage
-\begin{thebibliography}{99} % Bibliography - this is intentionally simple in this template
+\section{Lära Mer} 
+Det finns alltid rum för att lära sig mer och utforka verktygen till det yttersta. Detta har varit en introduktion till användandet av Cedet och ECB men du kan alltid finna mer information och dokumentation på deras hemsidor
+\begin{itemize}
+\item{CEDET} \url{http://cedet.sourceforge.net}
+\item{ECB} \url{http://ecb.sourceforge.net}
+\end{itemize}
 
-%\bibitem[Figueredo and Wolf, 2009]{Figueredo:2009dg}
-%Figueredo, A.~J. and Wolf, P. S.~A. (2009).
-%\newblock Assortative pairing and life history strategy - a cross-cultural study.
-%\newblock {\em Human Nature}, 20:317--330.
- 
-\end{thebibliography}
 
 %----------------------------------------------------------------------------------------
 

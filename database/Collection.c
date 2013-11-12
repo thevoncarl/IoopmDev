@@ -1,80 +1,240 @@
-#include "Collection.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+//#include "Collection.h"
 
-struct binaryTree{
+
+struct node {
   char* key;
   char* value;
-  struct binaryTree *left;
-  struct binaryTree *right;
+  struct node *parent;
+  struct node *left;
+  struct node *right;
+};
+
+
+typedef struct binaryTree{
+  struct node *treeRoot;
 } *Collection;
 
+
+struct node *mkNode(char *key, char *value){
+  struct node *returnNode = malloc(sizeof(struct node));
+  char *aKey = malloc(strlen(key));
+  char *aValue = malloc(strlen(value));
+  strcpy(aKey, key);
+  strcpy(aValue,value);
+  if (returnNode != NULL ){
+    returnNode->key = aKey;
+    returnNode->value = aValue;
+    returnNode->parent = NULL;
+    returnNode->left = NULL;
+    returnNode->right = NULL;
+    return returnNode;
+  }else 
+    return NULL;
+}
+
 Collection mkCollection(){
-  binaryTree result = mkBinaryTree(NULL,NULL);
-  return result;
-}
-printf("Collection could not me made");
-return NULL;
-}
-
-binaryTree mkBinaryTree(char* key, char* value){
-  struct binaryTree newTree = malloc(sizeof(struct binaryTree))
-    if(newTree != NULL){
-      newTree->key = key;
-      newTree->value = value;
-      newTree->left = NULL;
-      newTree->right = NULL;
-      return newTree;
-    }else
-      return NULL;
+  Collection result = malloc(sizeof(struct binaryTree));
+if (result != NULL)
+  {
+    return result;
+  }else return NULL;
 }
 
-void collectionInsertKeyValuePair(Collection collection, char* key, char* value){
-  if(key =! NULL && value != NULL && collection != NULL){
-    if (collection->key == NULL && collection->value == NULL){
-      collection->key = key;
-      collection->value = value;
-      return;
-    }else{
-      struct binaryTree *cursor = collection;
-      int inserted = 0;
-      while (!inserted && cursor != NULL){
-	int result = strcmp(cursor->key, key);
-	if (result > 0) // cursor->key < key
-	  {
-	    if (cursor->right == NULL)
-	      { 
-		struct binaryTree newTree = mkBinaryTree(key,value);
-		cursor->right = newTree;
-		inserted = 1;
-	      }else{
-	      cursor = cursor->right; 
-	      continue;
-	    }
-	  }else if (result < 0) //cursor->key > key
-	  if (cursor->left == NULL)
-	    {
-	      struct binaryTree newTree = mkBinaryTree(key,value);
-	      cursor->left = newTree;
-	      inserted = 1;
-	     
-	    }else {
-	    cursor = cursor->left;
-	    continue;
-	  }else {
-	  //key exists
-	  free(cursor->value);
-	  cursor->value = value;
-	  inserted =!;
-	  return;
-	}
-      }
+
+
+struct node *treeSearch(struct node *root, char *key){
+  struct node *cursor = root;
+  int found ;
+  while (cursor != NULL && found != 0){
+    found = strcmp(cursor->key, key);
+    if(found < 0){
+      cursor = cursor->left;
+    }else if (found > 0){
+      cursor = cursor->right;
     }
+  }return cursor;
+}
+
+int insertNode(Collection collection, struct node *nodeToInsert){
+  struct node *previusNode = NULL;
+  struct node *aCursor = collection->treeRoot;
+  int aResult = 0;
+  while(aCursor != NULL){
+    previusNode = aCursor;
+    aResult = strcmp(aCursor->key,nodeToInsert->key);
+    if (aResult < 0){
+      aCursor = aCursor->left;
+    }else if (aResult > 0){
+      aCursor = aCursor->right;
+    }
+    else { printf("Key Already Exist!"); return 0;
+    }
+  } 
+  if (nodeToInsert->parent != NULL && previusNode !=NULL){
+    free(nodeToInsert->parent);
   }
-   
-    }    
-    
-}else
-    { 
-      printf ("Key or Value cannot be empty!");
+  nodeToInsert->parent = previusNode;
+  if(previusNode != NULL){
+    int aaResult = strcmp(nodeToInsert->key, previusNode->key);  
+    if(aaResult > 0){
+    previusNode->left = nodeToInsert;
+    return 1;
+    }else if(aaResult < 0) {
+    previusNode->right = nodeToInsert;
+    return 1;
+    }else{
+      printf("Key Already Exist!");
+      return 0;
     }
+   }else{
+    collection->treeRoot = nodeToInsert;
+    return 1;
+  }
+ 
+}
+
+
+void destroyKeyValuePair(struct node *aNode){
+  free(aNode->key);
+  free(aNode->value);
+}
+void destroySubTree(struct node *subTree){
+  if (subTree != NULL){
+    destroySubTree(subTree->right);
+    destroySubTree(subTree->left); 
+    destroyKeyValuePair(subTree);
+    free(subTree);
+  } 
+}
+
+
+struct node* treeMinimum(struct node *aNode){
+  struct node *curs = aNode;
+  while(curs != NULL){
+    curs = curs->left;
+  }
+  return curs;
+}
+
+
+
+void transplant (Collection collection, struct node *node1, struct node *node2){
+  if (node1->parent == NULL){
+    collection->treeRoot = node2;
+  }else if (node1 == node1->parent->left){
+    node1->parent->left = node2;
+  }else {
+    node1->parent->right = node2;
+  }
+  if (node2 != NULL){
+    node2->parent = node1->parent;
+  }
+}
+
+void treeDelete (Collection collection, struct node *nodeToDelete){
+  if(nodeToDelete == NULL){
+    transplant(collection,nodeToDelete,nodeToDelete->right);
+      }else if(nodeToDelete->right == NULL){
+    transplant(collection,nodeToDelete,nodeToDelete->left);
+  }else {
+    struct node *minNode = treeMinimum(nodeToDelete->right);
+    if(minNode->parent != nodeToDelete){
+      transplant(collection,minNode,minNode->right);
+      minNode->right = nodeToDelete->right;
+      minNode->right->parent = minNode;
+    }
+    transplant(collection,nodeToDelete,minNode);
+    minNode->left = nodeToDelete->left;
+    minNode->left->parent = minNode;
+  }
+
+  destroyKeyValuePair(nodeToDelete);
+  free(nodeToDelete);
+}
+
+void rmCollection(Collection collection){
+
+  destroySubTree(collection->treeRoot);
+  free(collection);
+
 
 }
+
+ 
+char * collectionRemoveKeyValuePair(Collection collection, char* key){
+  struct node *aNode = treeSearch(collection->treeRoot, key);
+  if(aNode != NULL){
+    char* returnStr = "";
+    strcpy(returnStr, aNode->value);
+    treeDelete(collection, aNode);
+    return returnStr;
+  }else {return NULL;}
+}
+
+int collectionInsertKeyValuePair(Collection collection, char *key, char *value){
+
+  struct node *newNode = mkNode(key,value);
+  int success = insertNode(collection,newNode);
+  return success;
+}
+
+int collectionDoseKeyExist(Collection collection, char* key){
+  struct node * aNode = treeSearch(collection->treeRoot, key);
+  if (aNode != NULL){
+    return 1;
+  }else {
+    return 0;
+    }
+}
+char* collectionGetValueByKey(Collection collection, char *key){
+  struct node *aNode = treeSearch(collection->treeRoot, key);
+  if (aNode != NULL){
+    return aNode->value;
+  }else {
+    return NULL;
+  }
+}
+
+
+int main(int argc, char *argv[])
+{
+  Collection MyCollection = mkCollection();
+  if (MyCollection != NULL){
+    printf("FUCK YEAH! \n");
+
+}
+  struct node *myNode = mkNode("String", "Value");
+  if (myNode != NULL){
+    printf("FUCK YEAH! \n ,%s:%s\n",myNode->key,myNode->value);
+}
+  
+  struct node *aNode = mkNode("kille","tjej");
+   int su = insertNode(MyCollection,myNode);
+   int su2 = insertNode(MyCollection,aNode);
+   printf ("%d:%d\n",su,su2);
+  
+  struct node *kall = treeSearch(MyCollection->treeRoot,"kille");
+  printf("%s\n",kall->value);
+  
+ rmCollection(MyCollection);
+
+ puts ("Interface TESTS");
+
+ Collection newCollection = mkCollection();
+ int indicator1 = collectionInsertKeyValuePair(newCollection, "hund", "katt");
+ if(indicator1 == 1){
+   puts("Test 1: collectionInsertKeyValue Successful!");
+     }else{
+   puts ("Test 1: Failed!");
+ }
+
+
+
+  
+
+return 0;
+}
+

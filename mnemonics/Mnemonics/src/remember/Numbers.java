@@ -59,11 +59,11 @@ public class Numbers {
 	return (idx < 0) ? words : words.substring(idx+1);
     }
 
- private final void solve(String number, int index, String words,Dictionary useDict) {
+ private void solve(String number, int index, String words,Dictionary useDict) {
 	if (index >= number.length()) {
 	    String lastWord = lastWord(words);
 	    if (useDict.contains(lastWord)) 
-		System.err.println(number + ": " + words);
+		System.out.println(number + ": " + words);
 	    return;
 	}
 
@@ -72,11 +72,12 @@ public class Numbers {
 	for (int i=0; i<letters.length(); ++i) {
 	    String word = lastWord(words) + letters.charAt(i);
 	    if (useDict.contains(word)) {
+                
 		solve(number, index+1, words + letters.charAt(i) + " ",dict);
 	    }
             Dictionary subDict = useDict.couldMatch(word);
 	    if (subDict != null) {
-		solve(number, index+1, words + letters.charAt(i),useDict);
+		solve(number, index+1, words + letters.charAt(i),subDict);
 	    }
 	}
     }
