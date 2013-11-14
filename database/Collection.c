@@ -39,6 +39,7 @@ Collection mkCollection(){
   Collection result = malloc(sizeof(struct binaryTree));
 if (result != NULL)
   {
+    result->treeRoot = NULL;
     return result;
   }else return NULL;
 }
@@ -47,7 +48,7 @@ if (result != NULL)
 
 struct node *treeSearch(struct node *root, char *key){
   struct node *cursor = root;
-  int found ;
+  int found = -1 ; 
   while (cursor != NULL && found != 0){
     found = strcmp(cursor->key, key);
     if(found < 0){
@@ -55,41 +56,53 @@ struct node *treeSearch(struct node *root, char *key){
     }else if (found > 0){
       cursor = cursor->right;
     }
-  }return cursor;
+  }
+  if (cursor != NULL && strcmp(cursor->key, key) == 0){
+    return cursor;
+  }else {
+    return NULL;
+    }
+  
 }
 
+
 int insertNode(Collection collection, struct node *nodeToInsert){
-  struct node *previusNode = NULL;
-  struct node *aCursor = collection->treeRoot;
-  int aResult = 0;
-  while(aCursor != NULL){
-    previusNode = aCursor;
-    aResult = strcmp(aCursor->key,nodeToInsert->key);
-    if (aResult < 0){
-      aCursor = aCursor->left;
-    }else if (aResult > 0){
-      aCursor = aCursor->right;
-    }
-    else { printf("Key Already Exist!"); return 0;
-    }
-  } 
+  if (collection->treeRoot != NULL){   
+    struct node *previusNode = NULL;
+    struct node *aCursor = collection->treeRoot;
+    int aResult;
+    while(aCursor != NULL){
+      previusNode = aCursor;
+      aResult = strcmp(aCursor->key,nodeToInsert->key);
+      if (aResult < 0){
+	aCursor = aCursor->left;
+      }else if (aResult > 0){
+	aCursor = aCursor->right;
+      }
+      else { printf("Key Already Exist!1"); return 0;
+      }
+    } 
   if (nodeToInsert->parent != NULL && previusNode !=NULL){
     free(nodeToInsert->parent);
   }
-  nodeToInsert->parent = previusNode;
   if(previusNode != NULL){
+    nodeToInsert->parent = previusNode; 
     int aaResult = strcmp(nodeToInsert->key, previusNode->key);  
     if(aaResult > 0){
-    previusNode->left = nodeToInsert;
-    return 1;
+      previusNode->left = nodeToInsert;
+      return 1;
     }else if(aaResult < 0) {
-    previusNode->right = nodeToInsert;
+      previusNode->right = nodeToInsert;
     return 1;
     }else{
-      printf("Key Already Exist!");
+      printf("Key Already Exist!2");
       return 0;
     }
-   }else{
+  }else{
+    collection->treeRoot = nodeToInsert;
+    return 1;
+  }
+  }else{
     collection->treeRoot = nodeToInsert;
     return 1;
   }
@@ -204,35 +217,38 @@ int main(int argc, char *argv[])
   Collection MyCollection = mkCollection();
   if (MyCollection != NULL){
     printf("FUCK YEAH! \n");
-
-}
+    
+  }
   struct node *myNode = mkNode("String", "Value");
   if (myNode != NULL){
     printf("FUCK YEAH! \n ,%s:%s\n",myNode->key,myNode->value);
-}
+  }
   
   struct node *aNode = mkNode("kille","tjej");
-   int su = insertNode(MyCollection,myNode);
-   int su2 = insertNode(MyCollection,aNode);
-   printf ("%d:%d\n",su,su2);
+  int su = insertNode(MyCollection,myNode);
+  int su2 = insertNode(MyCollection,aNode);
+  printf ("%d:%d\n",su,su2);
   
   struct node *kall = treeSearch(MyCollection->treeRoot,"kille");
   printf("%s\n",kall->value);
   
- rmCollection(MyCollection);
-
- puts ("Interface TESTS");
-
- Collection newCollection = mkCollection();
- int indicator1 = collectionInsertKeyValuePair(newCollection, "hund", "katt");
- if(indicator1 == 1){
-   puts("Test 1: collectionInsertKeyValue Successful!");
-     }else{
-   puts ("Test 1: Failed!");
- }
-
-
-
+  rmCollection(MyCollection);
+  
+  puts ("Interface TESTS\n");
+  
+  Collection newCollection = mkCollection();
+  int indicator1 = collectionInsertKeyValuePair(newCollection, "hund", "katt");
+  if(indicator1 == 1){
+    puts("Test 1: collectionInsertKeyValue Successful!\n");
+  }else{
+    puts ("Test 1: Failed!\n");
+    
+  }
+  printf("Test 2 collectionDoseKeyExist: %d \n Indicator: %d \n collectionDoseKeyExist(false value): %d \n", collectionDoseKeyExist(newCollection, "hund"), indicator1,  collectionDoseKeyExist(newCollection, "olle") );
+  printf("Test 3 collectionGetValueByKey:%s\n", collectionGetValueByKey(newCollection, "hund"));  
+  printf("collectionGetValueByKey(false value): %s \n", collectionGetValueByKey(newCollection, "rally"));
+ printf("Test 4 collectionRemoveKeyValuePair (removed string : Dose Exist?!) : %s : %d \n" ,collectionRemoveKeyValuePair(newCollection, "hund"),collectionDoseKeyExist(newCollection,"hund"));
+  
   
 
 return 0;
