@@ -160,6 +160,8 @@ int main(int argc, char *argv[]){
       break;
     case 0:
       // Exit
+      puts("Cleaning up memory..");
+      rmCollection(dbCollection);
       puts("Good bye!");
       break;
     default:
