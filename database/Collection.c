@@ -64,6 +64,18 @@ struct node *treeSearch(struct node *root, char *key){
     }
   
 }
+void destroyKeyValuePair(struct node *aNode){
+  free(aNode->key);
+  free(aNode->value);
+}
+void destroySubTree(struct node *subTree){
+  if (subTree != NULL){
+    destroySubTree(subTree->right);
+    destroySubTree(subTree->left); 
+    destroyKeyValuePair(subTree);
+    free(subTree);
+  } 
+}
 
 
 int insertNode(Collection collection, struct node *nodeToInsert){
@@ -71,7 +83,8 @@ int insertNode(Collection collection, struct node *nodeToInsert){
     struct node *previusNode = NULL;
     struct node *aCursor = collection->treeRoot;
     int aResult;
-    while(aCursor != NULL){
+    int found = 0;
+    while(aCursor != NULL && found != 1){
       previusNode = aCursor;
       aResult = strcmp(aCursor->key,nodeToInsert->key);
       if (aResult < 0){
@@ -79,7 +92,8 @@ int insertNode(Collection collection, struct node *nodeToInsert){
       }else if (aResult > 0){
 	aCursor = aCursor->right;
       }
-      else { printf("Key Already Exist!1"); return 0;
+      else { 
+	found = 1; 
       }
     } 
   if (nodeToInsert->parent != NULL && previusNode !=NULL){
@@ -95,8 +109,10 @@ int insertNode(Collection collection, struct node *nodeToInsert){
       previusNode->right = nodeToInsert;
     return 1;
     }else{
-      printf("Key Already Exist!2");
-      return 0;
+      strcpy(previusNode->value, nodeToInsert->value);
+      destroyKeyValuePair(nodeToInsert);
+      free(nodeToInsert);
+      return 1;
     }
   }else{
     collection->treeRoot = nodeToInsert;
@@ -110,18 +126,6 @@ int insertNode(Collection collection, struct node *nodeToInsert){
 }
 
 
-void destroyKeyValuePair(struct node *aNode){
-  free(aNode->key);
-  free(aNode->value);
-}
-void destroySubTree(struct node *subTree){
-  if (subTree != NULL){
-    destroySubTree(subTree->right);
-    destroySubTree(subTree->left); 
-    destroyKeyValuePair(subTree);
-    free(subTree);
-  } 
-}
 
 
 struct node* treeMinimum(struct node *aNode){
