@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-//#include "Collection.h"
+#include "Collection.h"
 
 
 struct node {
@@ -13,9 +13,9 @@ struct node {
 };
 
 
-typedef struct binaryTree{
+/*typedef*/ struct binaryTree{
   struct node *treeRoot;
-} *Collection;
+}; //*Collection;
 
 
 struct node *mkNode(char *key, char *value){
@@ -177,14 +177,14 @@ void rmCollection(Collection collection){
 }
 
  
-char * collectionRemoveKeyValuePair(Collection collection, char* key){
+int collectionRemoveKeyValuePair(Collection collection, char* key){
   struct node *aNode = treeSearch(collection->treeRoot, key);
   if(aNode != NULL){
-    char* returnStr = "";
-    strcpy(returnStr, aNode->value);
     treeDelete(collection, aNode);
-    return returnStr;
-  }else {return NULL;}
+    return 1;
+  }else {
+    return 0;
+  }
 }
 
 int collectionInsertKeyValuePair(Collection collection, char *key, char *value){
@@ -211,7 +211,19 @@ char* collectionGetValueByKey(Collection collection, char *key){
   }
 }
 
+void inOrderWalk(struct node* aNode){
+  if(aNode != NULL){
+    inOrderWalk(aNode->left);
+    printf("(%s,%s)\n",aNode->key,aNode->value);
+    inOrderWalk(aNode->right);
+  }
+}
 
+
+void collectionPrint(Collection collection){
+  inOrderWalk(collection->treeRoot);
+}
+/*
 int main(int argc, char *argv[])
 {
   Collection MyCollection = mkCollection();
@@ -247,10 +259,10 @@ int main(int argc, char *argv[])
   printf("Test 2 collectionDoseKeyExist: %d \n Indicator: %d \n collectionDoseKeyExist(false value): %d \n", collectionDoseKeyExist(newCollection, "hund"), indicator1,  collectionDoseKeyExist(newCollection, "olle") );
   printf("Test 3 collectionGetValueByKey:%s\n", collectionGetValueByKey(newCollection, "hund"));  
   printf("collectionGetValueByKey(false value): %s \n", collectionGetValueByKey(newCollection, "rally"));
- printf("Test 4 collectionRemoveKeyValuePair (removed string : Dose Exist?!) : %s : %d \n" ,collectionRemoveKeyValuePair(newCollection, "hund"),collectionDoseKeyExist(newCollection,"hund"));
+ printf("Test 4 collectionRemoveKeyValuePair (removed string : Dose Exist?!) : %d : %d \n" ,collectionRemoveKeyValuePair(newCollection, "hund"),collectionDoseKeyExist(newCollection,"hund"));
   
   
 
 return 0;
-}
+}*/
 
