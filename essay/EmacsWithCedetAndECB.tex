@@ -100,16 +100,16 @@ CEDET (Collection of Emacs Development Enviroment Tools) och ECB (Emacs Code Bro
 
 \subsection{Vad är CEDET?} % Sub-section
 
-CEDET är en samling verktyg. Det betyder alltså att den innehåller olika verktyg som gör olika saker för att göra en programmerares liv i Emacs lättare. 
-Emacs är en textediterare, men med tillägg som CEDET förvandlar det till en utvecklingsmiljö.  I denna utvecklingsmiljö kan vi bla. strukturera, navigera, generera och automatisera vår kod. Cedet har även en inbyggd PMS (Projekt Management System), som gör det möjligt för oss att inte bara stykturera vår kod utan hela vårt projekt.
+CEDET är en samling verktyg. Det innehåller olika verktyg som gör en programmerares liv i Emacs lättare. 
+Emacs är en textediterare, men med tillägg som CEDET förvandlars det till en utvecklingsmiljö.  I denna utvecklingsmiljö kan vi bla. strukturera, navigera, generera och automatisera vår kod. Cedet har även en inbyggd PMS (Projekt Management System), som gör det möjligt för oss att inte bara strukturera vår kod, utan hela vårt projekt.
 
 %------------------------------------------------
 
 \subsection{Vad är ECB?} % Sub-section
 
-ECB eller Emacs Code Browser är precis som namnet föreslår en navigator för dig att navigera din kod. Det kom Ecb extra bra är det att det finns möjlighet att överblicka strukturen i kod filer, arbeta strukturerat med mappar, ha tillgång till alla matriell ditt projekt behöver visuellt medens du kodar. Dessutom drar det nytta av inbyggda delar utav Cedet paketet som gör allt detta möjligt. 
+ECB eller Emacs Code Browser är precis vad namnet föreslår, en navigator för att navigera din kod. Det som gör ECB extra bra är det att det finns möjlighet att överblicka strukturen i kod filer, arbeta strukturerat med mappar, ha tillgång till de resurser ditt projekt behöver och ger dig en visuell överblick av det samtidigt som du kodar. Dessutom drar det nytta av Cedet paketets inbyggda delar, som gör ECB's funktionalitet möjligt. 
 
-ECB använder sig utav trädstrukturer för att presentera filerna i dina mappar, och ger dig snabb åtkomst till projektfiler.
+ECB använder sig av trädstrukturer för att representera filerna i din mapphierarki, och ger dig snabb åtkomst till dina projektfiler och rader i din dokumentstruktur.
 
 %------------------------------------------------
 
@@ -128,7 +128,7 @@ ECB använder sig utav trädstrukturer för att presentera filerna i dina mappar
 \newpage
 \section{CEDET (Collection of Emacs Development Eviroment Tools)} % Major section
 
-Cedet har många olika verktyg som möjligör och förenklar en arbetsprocess utförd i emacs. Det vi ska ta en titt på för att göra det är :
+Cedet har många olika verktyg som möjligör och förenklar en arbetsprocess utförd i emacs. Det vi ska ta upp i detta dokument är :
 \begin{itemize}
 \item Installation och enkel konfigurering av CEDET
 \item Stöd för projekthantering och Självgenerande Makefiler
@@ -137,9 +137,10 @@ Cedet har många olika verktyg som möjligör och förenklar en arbetsprocess ut
 
 
 \subsection{Installation och Konfiguration av CEDET} % Sub-section
-I de nyare versionerna av Emacs finns redan Cedet installerat och har du det installerat du kan hoppa förbi sektionen om installationen, om du är osäker kontrollera om det finns genom att tycka M-x cedet-version RET. 
-Installationen för CEDET ser lite olika ut beroende på vilket operativsystem du sitter på men är ganska i båda fallen relativt simpel. Men först måste du ladda ner en utgåva av CEDET som du kan göra på
-{http://sourceforge.net/projects/cedet/} och extrahera paketet någonstans på din dator (rekomenderat äär att lägga den i mapp som tex.  ~/.emacs.d/packages/ ).
+I de nyare versionerna av Emacs finns redan Cedet installerat och har du det installerat du kan hoppa förbi sektionen om installationen,, om du är osäker så kontrollera om det finns i din version genom att tycka M-x cedet-version RET. 
+Installationen för CEDET ser lite olika ut beroende på vilket operativsystem du sitter på, men är i båda fallen relativt simpel.
+Först måste du ladda ner en utgåva av CEDET som du kan göra på
+{http://sourceforge.net/projects/cedet/} och extrahera paketet någonstans på din dator (rekomenderat är att lägga den i en mapp som tex.  ~/.emacs.d/packages/ ).
 
 %------------------------------------------------
 \subsubsection{Installation på Unix baserade system (Mac OS X, Linux)}
@@ -151,7 +152,7 @@ make EMACS=emacs
 %------------------------------------------------
 
 \subsubsection{Installation på Windows baserade system}
-På ett Windows baserat system fungerar inte make kommandot, men just detsamma så öppna upp Komtandotolken vilket man smidigt kan för genom att klicka WIN + R sedan skriva `cmd` följt av ENTER. Därefter navigera till den extraherade mappen och köra kommandot:
+På ett Windows baserat system fungerar inte make kommandot, men just detsamma så öppna upp Komtandotolken vilket man smidigt kan göra genom att klicka WIN + R sedan skriva `cmd` följt av ENTER. Därefter navigera till den extraherade mappen och köra kommandot:
 \begin{lstlisting}
 emacs -Q -l cedet-build.el -f cedet-build 
 \end{lstlisting}
@@ -168,7 +169,7 @@ emacs -Q -l cedet-build.el -f cedet-build
 %------------------------------------------------
 
 \subsubsection{Konfigurations av Emacs} % Sub-sub-section
-När installationen av de utökade verktygsprogrammen är installerade så behöver vi berätta för Emacs att det kan vara bra att starta dem när vi startar Emacs. Detta gör vi genom att lägga till ett par rader kod i våran initieringsfil. Beroende på din version och platform så kan den filen finnas olika ställen men det vanligaste är att du har en .emacs fil i din hemkatalog (`~/.emacs`), men den kanske också vara (`.emacs.d/init.el`). Finns inte filen brukar det gå bra att bara skapa dem.  Tänk på att i Unix system så är filer och mappar som börjar men `.` dolda i filsystemet så det underlättar att öppna filen i terminalen/komandotolken eller med en absolut/relativ sökväg i emacs. 
+När installationen av de utökade verktygsprogrammen är installerade så behöver vi berätta för Emacs att det kan vara bra att starta tilläggen när vi startar Emacs. Detta gör vi genom att lägga till ett par rader kod i våran initieringsfil. Beroende på din version och platform så kan den filen finnas olika ställen men det vanligaste är att du har en .emacs fil i din hemkatalog (`~/.emacs`), men den kanske också vara (`.emacs.d/init.el`). Finns inte filen brukar det gå bra att bara skapa dem.  Tänk på att i Unix system så är filer och mappar som börjar men `.` dolda i filsystemet så det underlättar att öppna filen i terminalen/komandotolken eller med en absolut/relativ sökväg i emacs. 
 När du hittat och öppnat filen så klista in eller skriv följande rader i filen
 \begin{lstlisting}
 ;; CEDET Config
@@ -178,10 +179,10 @@ När du hittat och öppnat filen så klista in eller skriv följande rader i fil
   (global-ede-mode t)
 \end{lstlisting}
 
-Det finns självklart många fler konfigurationer som går att göra men detta räcker för de ändamål vi har. Efter du är klar med att sätta in raderna i filen, så spara filen och starta om emacs eller tyck och skriv  ( M-x eval-buffer ) 
+Det finns självklart många fler konfigurationer som går att göra, men detta räcker för de ändamål vi har. Efter att du är klar med att sätta in raderna i filen, så spara filen och starta om emacs eller tryck och skriv  ( M-x eval-buffer ) 
 \newpage
 \subsection{Stöd Projekthantering och Självgenerande Makefiler}
-Cedet är en mångsidigt program som även fyller funktionen att göra dina Makefiler åt dig. EDE (Emacs Development Enviroment) är det delprogrammet som ingår i Cedet som hanterar projekten. Det första du behöver göra är att ställa dig i en buffer med ett C/C++ dokument där du vill skapa projektet och sedan använda M-x ede-new RET för att skapa ett nytt projekt, den kommer fråga dig om projektets namn osv. När du är klar med det så handlar det om att lägga in såkallade `Targets' i projectet. Ett Target är en målfil som skall skapas, som tex databas.o eller liknande. För att skapa ett nytt Target skriver du M-x ede-new-target RET Sedan mata in vad ditt target ska heta. Vanligtvis frågar programmet om du vill lägga till filen du står i men du kan även lägga till nya filer senare med kommandot M-x ede-add-file för att lägga till fler beroenden till din målfil.
+Cedet är ett mångsidigt program som även fyller funktionen att göra dina Makefiler åt dig. EDE (Emacs Development Enviroment) är det delprogrammet som ingår i Cedet som hanterar projekten. Det första du behöver göra är att ställa dig i en buffer med ett C/C++ dokument där du vill skapa projektet och sedan använda M-x ede-new RET för att skapa ett nytt projekt, den kommer fråga dig om projektets namn osv. När du är klar med det så handlar det om att lägga in såkallade `Targets' i projectet. Ett Target är en målfil som skall skapas, som tex databas.o eller liknande. För att skapa ett nytt Target skriver du M-x ede-new-target RET Sedan mata in vad ditt target ska heta. Vanligtvis frågar programmet om du vill lägga till filen du står i men du kan även lägga till nya filer senare med kommandot M-x ede-add-file för att lägga till fler beroenden till din målfil.
 
 När du har ett projekt, och minst ett Target i ditt projekt kan du bygga projektet genom snabbkommandot C-c . C då generar programmet automatiskt en Makefil och kör den , det finns öven stöd för att kompilera delmål och generera om Makefilen  
 
@@ -198,7 +199,7 @@ ECB behöver Cedet för att fungera korrekt, så du måste installera det först
 \end{lstlisting}
 spara filen och starta om emacs, evt skriv in M-x eval-buffer RET. Detta lägger till att arkiv av paket, som sedan går att installera.
 
-Nästa steg är att skriva M-x list-packages RET. Då kommer en lång lista upp med olika paket. Sök efter ECB antingen genom att scolla listan eller tryck C-s ecb , så borde du hitta raden. Tryck på ecb ordet och det bör öppnas en ny buffer. I den nya buffertern, tryck på Install och låt scriptet köras.
+Nästa steg är att skriva M-x list-packages RET. Då kommer det en lång lista med olika paket. Sök efter ECB antingen genom att scolla listan eller tryck C-s ecb , så borde du hitta raden. Tryck på ecb ordet och det bör öppnas en ny buffer. I den nya buffertern, tryck på Install och låt scriptet köras.
 
 
 OBS!: Härmed ska programmet vara installerat, men du kan ha fått upp varingsmeddelanden. Detta kan bero på olika saker men först så navigera dig till ~/.emacs.d/elpa/ecb-20130826.1941/ecb-cedet-wrapper.el eller motsvarande sökväg. I filen navigera till raden där det står \begin{lstlisting}
